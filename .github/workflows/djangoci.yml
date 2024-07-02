@@ -60,7 +60,7 @@ jobs:
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
+          name: ${{ matrix.python-version }}-coverage-report
           path: coverage.xml
 
       - name: Generate HTML report
@@ -69,5 +69,5 @@ jobs:
       - name: Upload HTML report
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-html-report
+          name: ${{ matrix.python-version }}-coverage-html-report
           path: htmlcov
