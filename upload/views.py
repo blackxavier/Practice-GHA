@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
+from django.http import JsonResponse
 
 
 def image_upload(request):
@@ -11,3 +12,9 @@ def image_upload(request):
         print(image_url)
         return render(request, "upload/upload.html", {"image_url": image_url})
     return render(request, "upload/upload.html")
+
+
+def my_json_view(request):
+    # Example data to return as JSON
+    data = {"Status": "Live"}
+    return JsonResponse(data)

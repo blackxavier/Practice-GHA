@@ -1,79 +1,21 @@
-###########
-# BUILDER #
-###########
+# Use the official Python image
+FROM python:3.9-slim
 
-# pull official base image
-FROM krallin/ubuntu-tini:trusty as tini
+# Set the working directory
+WORKDIR /app
 
-# pull official base image
-FROM python:3.11.4-slim-buster as builder
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# set work directory
-WORKDIR /usr/src/app
+# Copy the project files
+COPY . .
 
-# set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+# Collect static files
+RUN python manage.py collectstatic --noinput
 
-# install system dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends gcc
+# Expose the port the app runs on
+EXPOSE 8000
 
-# lint
-RUN pip install --upgrade pip
-RUN pip install flake8==6.0.0
-COPY . /usr/src/app/
-RUN flake8 --ignore=E501,F401 .
-
-# install python dependencies
-COPY ./requirements.txt .
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
-
-
-#########
-# FINAL #
-#########
-
-# pull official base image
-FROM python:3.11.4-slim-buster
-
-# Copy tini package
-COPY --from=tini /usr/local/bin/tini /usr/local/bin/tini
-
-# create directory for the app user
-RUN mkdir -p /home/app
-
-# create the app user
-RUN addgroup --system app && adduser --system --group app
-
-# create the appropriate directories
-ENV HOME=/home/app
-ENV APP_HOME=/home/app/web
-RUN mkdir $APP_HOME
-RUN mkdir $APP_HOME/staticfiles
-RUN mkdir $APP_HOME/mediafiles
-WORKDIR $APP_HOME
-
-# install dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends netcat
-COPY --from=builder /usr/src/app/wheels /wheels
-COPY --from=builder /usr/src/app/requirements.txt .
-RUN pip install --upgrade pip
-RUN pip install --no-cache /wheels/*
-
-# copy entrypoint.prod.sh
-COPY ./app-entrypoint.sh .
-RUN sed -i 's/\r$//g'  $APP_HOME/app-entrypoint.sh
-RUN chmod +x  $APP_HOME/app-entrypoint.sh
-
-# copy project
-COPY . $APP_HOME
-
-# chown all the files to the app user
-RUN chown -R app:app $APP_HOME
-
-# change to the app user
-USER app
-
-# run entrypoint.prod.sh
-ENTRYPOINT ["/home/app/web/app-entrypoint.sh"]
+# Command to run the app
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "core.wsgi:application"]
