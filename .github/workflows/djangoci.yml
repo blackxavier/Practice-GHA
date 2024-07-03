@@ -122,9 +122,10 @@ jobs:
 
       - name: Build and Test
         run: |
-          docker run -d -p 8000:8000 --rm ${{ secrets.DOCKER_HUB_USERNAME }}/practice-gha-app:${{github.sha}}
+          docker run -d -p --name web 8000:8000 --rm ${{ secrets.DOCKER_HUB_USERNAME }}/practice-gha-app:${{github.sha}}
           docker ps
-          curl 127.0.0.1:8000
+          docker logs web
+      # curl 127.0.0.1:8000
       # wget -q -O 127.0.0.1:8000/live | grep live
 
       # - name: Run tests in Docker container
