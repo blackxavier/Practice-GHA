@@ -125,7 +125,9 @@ jobs:
           docker run --name web -d -p 8000:8000 --rm ${{ secrets.DOCKER_HUB_USERNAME }}/practice-gha-app:${{github.sha}}
           docker logs web
           docker ps
-          
+          echo testing image with wget
+          wget -q -O 127.0.0.1:8000/live
+
       # curl 127.0.0.1:8000
       # wget -q -O 127.0.0.1:8000/live | grep live
 
