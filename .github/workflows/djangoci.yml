@@ -110,7 +110,7 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-      - name: Build and Test
+      - name: Build Image
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -119,6 +119,11 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/practice-gha-app:${{github.sha}}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
+
+      - name: Build and Test
+        run: |
+          docker run --rm ${{ secrets.DOCKER_HUB_USERNAME }}/practice-gha-app:${{github.sha}}
+          curl localhost:8000/live
 
       # - name: Run tests in Docker container
       #   run: |
@@ -130,6 +135,7 @@ jobs:
       #     POSTGRES_DB=test_db POSTGRES_USER=postgres POSTGRES_PASSWORD=postgres \
       #      ${{ secrets.DOCKER_HUB_USERNAME }}/practice-gha-app:latest
       #     curl 127.0.0.1:8000/live
+
 # POSTGRES_DB: test_db
 #           POSTGRES_USER: postgres
 #           POSTGRES_PASSWORD: postgres
