@@ -22,7 +22,7 @@ jobs:
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          
+
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -34,7 +34,7 @@ jobs:
 
     strategy:
       matrix:
-        os : ["ubuntu:20.04", "ubuntu:22.04"]
+        os : ["ubuntu-20.04", "ubuntu-22.04"]
     steps:
       - name: checkout code
         uses: actions/checkout@v4
