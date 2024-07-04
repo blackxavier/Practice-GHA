@@ -131,7 +131,7 @@ jobs:
       - name: Build Image to GHCR
         uses: docker/build-push-action@v6
         with:
-          context: ghcr.io
+          context: .
           # load: true
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/practice-gha-app:${{ github.sha }}
