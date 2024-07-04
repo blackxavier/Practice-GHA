@@ -114,11 +114,12 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          load: true
+          # load: true
+          push: true
           file: Dockerfile
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/practice-gha-app:${{github.sha}}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
+          # cache-from: type=local,src=/tmp/.buildx-cache
+          # cache-to: type=local,dest=/tmp/.buildx-cache
 
       - name: Build and Test
         run: |
