@@ -123,6 +123,7 @@ jobs:
 
       - name: Build and Test
         run: |
+          docker images
           docker run --name web -p 8000:8000 -d --rm ${{ secrets.DOCKER_HUB_USERNAME }}/practice-gha-app:${{ github.sha }}
           docker logs -t --tail 10 web
       # docker ps
