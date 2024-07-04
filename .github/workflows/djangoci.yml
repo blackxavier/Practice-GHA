@@ -115,15 +115,15 @@ jobs:
         with:
           context: .
           # load: true
-          push: true
+          push: false
           file: Dockerfile
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/practice-gha-app:${{github.sha}}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/practice-gha-app:${{ github.sha }}
           # cache-from: type=local,src=/tmp/.buildx-cache
           # cache-to: type=local,dest=/tmp/.buildx-cache
 
       - name: Build and Test
         run: |
-          docker run --name web -p 8000:8000 -d --rm ${{ secrets.DOCKER_HUB_USERNAME }}/practice-gha-app:${{github.sha}}
+          docker run --name web -p 8000:8000 -d --rm ${{ secrets.DOCKER_HUB_USERNAME }}/practice-gha-app:${{ github.sha }}
           docker logs -t --tail 10 web
       # docker ps
       # echo testing image with wget
