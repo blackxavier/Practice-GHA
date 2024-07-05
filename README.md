@@ -21,3 +21,6 @@ An enviroenmental variable is defined at the job level. This will be used by oth
 
 The job checkouts the code from the repo, caches python packages , installs dependencies and runs python migrations
 The linting is done with flake8, test is done with coverage, tests reports are uploaded as artifacts
+
+
+### Build
