@@ -34,14 +34,14 @@ jobs:
 
     strategy:
       matrix:
-        os : ["ubuntu-20.04", "ubuntu-22.04"]
+        os: ["ubuntu-20.04", "ubuntu-22.04"]
     steps:
       - name: checkout code
         uses: actions/checkout@v4
 
       # - name: Set up Python ${{ matrix.os }}
       #   uses: actions/setup-python@v5
-      #   with: 
+      #   with:
       #     python-version: ${{ matrix.os }}
 
       - name: Cache Python packages ${{ matrix.os }}
@@ -56,12 +56,16 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          python manage.py makemigrations
+          python manage.py migrate
 
       - name: Lint with flake8
         run: flake8
 
-        
       - name: Run tests with coverage
+        env:
+          DATABASE_URL: postgres://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.POSTGRES_DB }}
+
         run: |
           pip install coverage
           coverage run manage.py test
