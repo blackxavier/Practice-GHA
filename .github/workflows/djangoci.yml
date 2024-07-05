@@ -16,8 +16,6 @@ jobs:
     services:
       postgres:
         image: postgres:latest
-        ports:
-          - 5432:5432
         env:
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
@@ -28,6 +26,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+          --name postgres
 
     env:
       DATABASE_URL: postgres://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@postgres:5432/${{ secrets.POSTGRES_DB }}
