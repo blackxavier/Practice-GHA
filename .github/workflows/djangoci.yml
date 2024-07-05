@@ -150,23 +150,4 @@ jobs:
           docker run --name web -p 8000:8000 -d --rm ${{ secrets.DOCKER_HUB_USERNAME }}/practice-gha-app:${{ github.sha }}
           wget -O - http://127.0.0.1:8000/live
 
-      # curl 127.0.0.1:8000
-      # wget -q -O 127.0.0.1:8000/live | grep live
 
-      # - name: Run tests in Docker container
-      #   run: |
-      #     docker images
-      #     docker run --rm ${{ secrets.DOCKER_HUB_USERNAME }}/practice-gha-app:latest python manage.py test
-      # - name: Run container and test page
-      #   run: |
-      #     docker run -d -p 8000:8000 -e \
-      #     POSTGRES_DB=test_db POSTGRES_USER=postgres POSTGRES_PASSWORD=postgres \
-      #      ${{ secrets.DOCKER_HUB_USERNAME }}/practice-gha-app:latest
-      #     curl 127.0.0.1:8000/live
-
-# POSTGRES_DB: test_db
-#           POSTGRES_USER: postgres
-#           POSTGRES_PASSWORD: postgres
-# docker logs -t --tail 10 web
-# docker ps
-# echo testing image with wget
