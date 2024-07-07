@@ -149,21 +149,21 @@ jobs:
           docker images
           docker run --name web -p 8000:8000 -d --rm ${{ secrets.DOCKER_HUB_USERNAME }}/practice-gha-app:${{ github.sha }}
           wget -O - http://127.0.0.1:8000/live
-  
+
   dev-deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Install Kubectl
-        uses: azure/setup-kubectl@v3 
+        uses: azure/setup-kubectl@v3
         with:
-          version: 'v1.26.0'
-      
-      - name: Confirm Kubectl Installation
-        run: |
-          kubectl version  -o yaml
-          echo --------------------------------
-          kubectl get modes
+          version: "v1.26.0"
+
+      # - name: Confirm Kubectl Installation
+      #   run: |
+      #     kubectl version  -o yaml
+      #     echo --------------------------------
+      #     kubectl get modes
