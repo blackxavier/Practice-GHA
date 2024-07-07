@@ -164,6 +164,6 @@ jobs:
       
       - name: Confirm Kubectl Installation
         run: |
-          kubectl version --short -o yaml
+          kubectl version  -o yaml
           echo --------------------------------
           kubectl get modes
