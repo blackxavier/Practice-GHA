@@ -13,8 +13,8 @@ jobs:
       matrix:
         os: ["ubuntu-20.04", "ubuntu-22.04"]
     runs-on: ${{ matrix.os }}
-    env:
-          ACTIONS_RUNNER_DEBUG: ${{ secrets.ACTIONS_RUNNER_DEBUG }}
+ 
+          
 
     container: python:3.9
 
@@ -35,7 +35,7 @@ jobs:
 
     env:
       DATABASE_URL: postgres://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@postgres:5432/${{ secrets.POSTGRES_DB }}
-
+      ACTIONS_RUNNER_DEBUG: ${{ secrets.ACTIONS_RUNNER_DEBUG }}
     steps:
       - name: checkout code
         uses: actions/checkout@v4
